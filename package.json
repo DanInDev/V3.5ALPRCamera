@@ -1,7 +1,6 @@
 {
   "name": "text-recognition-camera-component",
-  "version": "0.0.3",
-  "private": false,
+  "version": "0.0.4",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
@@ -15,10 +14,11 @@
   "dependencies": {
     "react": "*",
     "react-native": "0.74.1",
+    "react-native-fs": "^2.20.0",
     "react-native-vision-camera": "^4.0.5",
     "react-native-vision-camera-text-recognition": "^1.3.0",
     "react-native-worklets-core": "^1.3.3",
-    "react-native-fs": "^2.20.0"
+    "text-recognition-camera-component": "^0.0.3"
   },
   "description": "Easy Setup JS Component done with vision-camera and vision-camera-ocr",
   "files": [
@@ -58,5 +58,6 @@
     "Component"
   ],
   "author": "DanInDev",
-  "license": "ISC"
+  "license": "ISC",
+  "packageManager": "yarn@3.6.4"
 }

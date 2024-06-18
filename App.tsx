@@ -7,8 +7,8 @@ import {
   useCameraPermission,
   useFrameProcessor,
 } from "react-native-vision-camera";
-import { DefaultPermissionPage } from '../src/pages/defaultPermissionPage';
-import { DefaultNoCameraDeviceError } from '../src/pages/noCameraDeviceError';
+import { DefaultPermissionPage } from './src/pages/defaultPermissionPage';
+import { DefaultNoCameraDeviceError } from './src/pages/noCameraDeviceError';
 import { useTextRecognition } from "react-native-vision-camera-text-recognition";
 import { TextRecognitionOptions } from 'react-native-vision-camera-text-recognition/lib/typescript/src/types';
 
