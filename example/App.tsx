@@ -7,8 +7,8 @@ import {
   useCameraPermission,
   useFrameProcessor,
 } from "react-native-vision-camera";
-import { DefaultPermissionPage } from './src/pages/defaultPermissionPage';
-import { DefaultNoCameraDeviceError } from './src/pages/noCameraDeviceError';
+import { DefaultPermissionPage } from '../src/pages/defaultPermissionPage';
+import { DefaultNoCameraDeviceError } from '../src/pages/noCameraDeviceError';
 import { useTextRecognition } from "react-native-vision-camera-text-recognition";
 import { TextRecognitionOptions } from 'react-native-vision-camera-text-recognition/lib/typescript/src/types';
 
@@ -37,23 +37,20 @@ const device = useCameraDevice('back');
     
     runAsync(frame, () => {
       'worklet';
-      'worklet'
+  
       const data = scanText(frame)
       console.log(data, 'data')
 
-     // findPlatesAndVerify(ocrFrame);
     });
   }, []);
   return (
     <>
-      {!!device && (
         <Camera
           style={StyleSheet.absoluteFill}
           device={device}
           isActive
           frameProcessor={frameProcessor}
         />
-      )}
     </>
   );
 }

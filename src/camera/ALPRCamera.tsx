@@ -1,16 +1,17 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, TouchableOpacity, StyleSheet, Text} from 'react-native';
 import { Camera, runAsync, useCameraDevice, useCameraPermission, useFrameProcessor } from 'react-native-vision-camera';
 
-import { OCRFrame, scanOCR } from '@DanInDev/vision-camera-ocr';
 import { Worklets } from 'react-native-worklets-core';
-import { applyFilterFunctions } from '../filtering/filterService';
 import { callLimiter } from '../api/callLimiter';
 import { ALPRCameraProps } from './ALPRCameraProps';
 import { DefaultPermissionPage } from '../pages/defaultPermissionPage';
 import { DefaultNoCameraDeviceError } from '../pages/noCameraDeviceError';
 
 import RNFS from 'react-native-fs';
+
+import { useTextRecognition } from 'react-native-vision-camera-text-recognition';
+import { TextRecognitionOptions } from 'react-native-vision-camera-text-recognition/lib/typescript/src/types';
 
 export const ALPRCamera: React.FC<ALPRCameraProps> = ({
   isActive = true,
@@ -51,9 +52,10 @@ export const ALPRCamera: React.FC<ALPRCameraProps> = ({
     console.log ('Filter changed to: ', currentFilter)
   }, [filterOption]);
 
-  const findPlatesAndVerify = Worklets.createRunOnJS((ocrFrame: OCRFrame) => {
-    const ocrResult = applyFilterFunctions(ocrFrame, currentFilterRef.current);
+  const findPlatesAndVerify = Worklets.createRunOnJS((text: string) => {
+    //const ocrResult = applyFilterFunctions(text, currentFilterRef.current);
 
+    const ocrResult = text
     if (OnPlateRecognized) {
       OnPlateRecognized(ocrResult);
     }
@@ -97,13 +99,18 @@ export const ALPRCamera: React.FC<ALPRCameraProps> = ({
     return null;
   };
 
+  const options:TextRecognitionOptions = { language : 'latin', mode: 'recognize' }
+  const {scanText} = useTextRecognition(options)
+
   // Main frameprocessor that runs the SCANOCR plugin and uses the filters to find license plates
   const frameProcessor = useFrameProcessor((frame) => {
     'worklet';
     runAsync(frame, () => {
       'worklet';
-      const ocrFrame = scanOCR(frame);
-      findPlatesAndVerify(ocrFrame);
+
+        const data = scanText(frame)
+        console.log(data, 'data')
+      findPlatesAndVerify(data.result.result.text);
     });
   }, []);
 
